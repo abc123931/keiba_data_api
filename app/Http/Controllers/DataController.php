@@ -78,4 +78,5 @@ class DataController extends Controller
             "error"  => $errors
         ]);
     }
+
 }
