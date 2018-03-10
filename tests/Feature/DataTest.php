@@ -137,13 +137,13 @@ class DataTest extends TestCase
             ]);
     }
 
-    public function test_getDataGraph_xaxisがracecourseでyaxisがracerankの場合()
+    public function test_getDataGraph_xaxisがracebabaでyaxisがracerankの場合()
     {
         $response = $this->json('POST', '/api/data',
             [
                 'names' => ["トラストセレビー"],
                 'yaxis' => 'racerank',
-                'xaxis' => 'racecourse'
+                'xaxis' => 'racebaba'
             ]);
         $response
             ->assertStatus(200)
@@ -151,23 +151,18 @@ class DataTest extends TestCase
                 'result' => [
                     "トラストセレビー" => [
                         [
-                            "yaxis" => "14.5000000000000000",
-                            "xaxis" => "東京",
-                            "sort_order" => "05"
-                        ],
-                        [
-                            "yaxis" => "15.0000000000000000",
-                            "xaxis" => "中山",
-                            "sort_order" => "06"
+                            "yaxis" => "14.6666666666666667",
+                            "xaxis" => "良",
+                            "sort_order" => "1"
                         ],
                         [
                             "yaxis" => "13.0000000000000000",
-                            "xaxis" => "京都",
-                            "sort_order" => "08"
+                            "xaxis" => "重",
+                            "sort_order" => "3"
                         ]
                     ]
                 ],
-                'xaxis' => ["東京", "中山", "京都"],
+                'xaxis' => ["良", "重"],
                 'error' => []
             ]);
     }
