@@ -65,4 +65,110 @@ class DataTest extends TestCase
             ['馬', '縦軸', '', '横軸が選択されていません。']
         ];
     }
+
+    public function test_getDataGraph_登録されていない馬名の場合()
+    {
+        $response = $this->json('POST', '/api/data',
+            [
+                'names' => ["てすと"],
+                'yaxis' => 'y',
+                'xaxis' => 'x'
+            ]);
+        $response
+            ->assertStatus(200)
+            ->assertExactJson([
+                'result' => ["テスト" => []],
+                'xaxis' => [],
+                'error' => ["馬名「てすと」は見つかりませんでした。"]
+            ]);
+
+    }
+
+    public function test_getDataGraph_xaxisが不正な場合()
+    {
+        $response = $this->json('POST', '/api/data',
+            [
+                'names' => ["test1"],
+                'yaxis' => 'y',
+                'xaxis' => 'x'
+            ]);
+        $response
+            ->assertStatus(200)
+            ->assertExactJson([
+                'result' => [],
+                'xaxis' => [],
+                'error' => ["x軸が正しくありません。"]
+            ]);
+
+    }
+
+    public function test_getDataGraph_xaxisがracecourseでyaxisがracerankの場合()
+    {
+        $response = $this->json('POST', '/api/data',
+            [
+                'names' => ["トラストセレビー"],
+                'yaxis' => 'racerank',
+                'xaxis' => 'racecourse'
+            ]);
+        $response
+            ->assertStatus(200)
+            ->assertExactJson([
+                'result' => [
+                    "トラストセレビー" => [
+                        [
+                            "yaxis" => "14.5000000000000000",
+                            "xaxis" => "東京",
+                            "sort_order" => "05"
+                        ],
+                        [
+                            "yaxis" => "15.0000000000000000",
+                            "xaxis" => "中山",
+                            "sort_order" => "06"
+                        ],
+                        [
+                            "yaxis" => "13.0000000000000000",
+                            "xaxis" => "京都",
+                            "sort_order" => "08"
+                        ]
+                    ]
+                ],
+                'xaxis' => ["東京", "中山", "京都"],
+                'error' => []
+            ]);
+    }
+
+    public function test_getDataGraph_xaxisがracecourseでyaxisがracerankの場合()
+    {
+        $response = $this->json('POST', '/api/data',
+            [
+                'names' => ["トラストセレビー"],
+                'yaxis' => 'racerank',
+                'xaxis' => 'racecourse'
+            ]);
+        $response
+            ->assertStatus(200)
+            ->assertExactJson([
+                'result' => [
+                    "トラストセレビー" => [
+                        [
+                            "yaxis" => "14.5000000000000000",
+                            "xaxis" => "東京",
+                            "sort_order" => "05"
+                        ],
+                        [
+                            "yaxis" => "15.0000000000000000",
+                            "xaxis" => "中山",
+                            "sort_order" => "06"
+                        ],
+                        [
+                            "yaxis" => "13.0000000000000000",
+                            "xaxis" => "京都",
+                            "sort_order" => "08"
+                        ]
+                    ]
+                ],
+                'xaxis' => ["東京", "中山", "京都"],
+                'error' => []
+            ]);
+    }
 }

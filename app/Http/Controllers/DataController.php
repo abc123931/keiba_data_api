@@ -50,6 +50,11 @@ class DataController extends Controller
                     if ($request->xaxis === 'racebaba') {
                         $result[$name] = Horse::babaOrderByGoal($horse_id)->get();
                     }
+
+                    if (!isset($result[$name])) {
+                       $errors[] = "x軸が正しくありません。";
+                       continue;
+                    }
                     /*
                      * sortの番号とx軸の値の配列をつくる
                      * 例:
