@@ -14,8 +14,12 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'api'], function() {
+
+    // Data用
     Route::get('/horse', 'DataController@getHorseName');
+    Route::get('/race', 'DataController@getRaceName');
     Route::post('/data', 'DataController@getDataGraph');
+
     Route::post('/login', 'ApiAuthController@login');
     Route::post('/register', 'ApiAuthController@postRegister');
     Route::group(['middleware' => 'jwt.auth'], function() {
