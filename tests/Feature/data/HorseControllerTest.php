@@ -9,16 +9,14 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DataTest extends TestCase
+class HorseControllerTest extends TestCase
 {
     /**
-     * DataControllerのテスト
+     * data\HorseControllerのテスト
      */
-    private $target;
-
     public function test_getHorseNameで正常終了()
     {
-        $response = $this->json('GET', '/api/horse', ['name' => 'test']);
+        $response = $this->json('GET', '/api/data/horse', ['name' => 'test']);
         $response
             ->assertStatus(200)
             ->assertExactJson([
@@ -29,47 +27,7 @@ class DataTest extends TestCase
 
     public function test_getHorseNameでリクエストがない場合空の配列が返る()
     {
-        $response = $this->json('GET', '/api/horse', ['name' => '']);
-        $response
-            ->assertStatus(200)
-            ->assertExactJson([
-                'names' => []
-            ]);
-    }
-
-    public function test_getRaceNameで正常終了()
-    {
-        $response = $this->json('GET', '/api/race', ['name' => '有馬']);
-        $response
-            ->assertStatus(200)
-            ->assertExactJson([
-                'names' => ["有馬記念"]
-            ]);
-    }
-
-    public function test_getRaceNameでリクエストがない場合空の配列が返る()
-    {
-        $response = $this->json('GET', '/api/race', ['name' => '']);
-        $response
-            ->assertStatus(200)
-            ->assertExactJson([
-                'names' => []
-            ]);
-    }
-
-    public function test_getRaceNameで漢字じゃない場合読みから探す()
-    {
-        $response = $this->json('GET', '/api/race', ['name' => 'ありま']);
-        $response
-            ->assertStatus(200)
-            ->assertExactJson([
-                'names' => ["有馬記念"]
-            ]);
-    }
-
-    public function test_getRaceNameで漢字とひらがなの場合空を返す()
-    {
-        $response = $this->json('GET', '/api/race', ['name' => '有ま']);
+        $response = $this->json('GET', '/api/data/horse', ['name' => '']);
         $response
             ->assertStatus(200)
             ->assertExactJson([
@@ -82,7 +40,7 @@ class DataTest extends TestCase
      */
     public function test_getDataGraphでバリデーションにかかる($name, $yaxis, $xaxis, $expected)
     {
-        $response = $this->json('POST', '/api/data',
+        $response = $this->json('POST', '/api/data/graph/horse',
             [
                 'names' => $name,
                 'yaxis' => $yaxis,
@@ -108,7 +66,7 @@ class DataTest extends TestCase
 
     public function test_getDataGraph_登録されていない馬名の場合()
     {
-        $response = $this->json('POST', '/api/data',
+        $response = $this->json('POST', '/api/data/graph/horse',
             [
                 'names' => ["てすと"],
                 'yaxis' => 'y',
@@ -126,7 +84,7 @@ class DataTest extends TestCase
 
     public function test_getDataGraph_xaxisが不正な場合()
     {
-        $response = $this->json('POST', '/api/data',
+        $response = $this->json('POST', '/api/data/graph/horse',
             [
                 'names' => ["test1"],
                 'yaxis' => 'y',
@@ -144,7 +102,7 @@ class DataTest extends TestCase
 
     public function test_getDataGraph_xaxisがracecourseでyaxisがracerankの場合()
     {
-        $response = $this->json('POST', '/api/data',
+        $response = $this->json('POST', '/api/data/graph/horse',
             [
                 'names' => ["トラストセレビー"],
                 'yaxis' => 'racerank',
@@ -179,7 +137,7 @@ class DataTest extends TestCase
 
     public function test_getDataGraph_xaxisがracebabaでyaxisがracerankの場合()
     {
-        $response = $this->json('POST', '/api/data',
+        $response = $this->json('POST', '/api/data/graph/horse',
             [
                 'names' => ["トラストセレビー"],
                 'yaxis' => 'racerank',

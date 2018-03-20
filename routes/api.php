@@ -16,9 +16,12 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'api'], function() {
 
     // Data用
-    Route::get('/horse', 'DataController@getHorseName');
-    Route::get('/race', 'DataController@getRaceName');
-    Route::post('/data', 'DataController@getDataGraph');
+    Route::group(['prefix' => 'data'], function() {
+        Route::get('/horse', 'data\HorseController@getHorseName');
+        Route::get('/race', 'data\RaceController@getRaceName');
+        Route::post('/graph/horse', 'data\HorseController@getDataGraph');
+        Route::post('/graph/race', 'data\RaceController@getDataGraph');
+    });
 
     Route::post('/login', 'ApiAuthController@login');
     Route::post('/register', 'ApiAuthController@postRegister');
