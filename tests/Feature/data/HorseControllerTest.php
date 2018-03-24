@@ -16,11 +16,11 @@ class HorseControllerTest extends TestCase
      */
     public function test_getHorseNameで正常終了()
     {
-        $response = $this->json('GET', '/api/data/horse', ['name' => 'test']);
+        $response = $this->json('GET', '/api/data/horse', ['name' => 'とに']);
         $response
             ->assertStatus(200)
             ->assertExactJson([
-                'names' => ['test1','test2','test3','test4','test5']
+                'names' => ['エアブリトニー','トニーゴールド','アルトニベル','レガシーオブトニー','トニーズメモリイ']
             ]);
 
     }
@@ -86,7 +86,7 @@ class HorseControllerTest extends TestCase
     {
         $response = $this->json('POST', '/api/data/graph/horse',
             [
-                'names' => ["test1"],
+                'names' => ["エアブリトニー"],
                 'yaxis' => 'y',
                 'xaxis' => 'x'
             ]);
@@ -104,7 +104,7 @@ class HorseControllerTest extends TestCase
     {
         $response = $this->json('POST', '/api/data/graph/horse',
             [
-                'names' => ["トラストセレビー"],
+                'names' => ["ハングインゼア"],
                 'yaxis' => 'racerank',
                 'xaxis' => 'racecourse'
             ]);
@@ -112,25 +112,30 @@ class HorseControllerTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 'result' => [
-                    "トラストセレビー" => [
+                    "ハングインゼア" => [
                         [
-                            "yaxis" => "14.5000000000000000",
-                            "xaxis" => "東京",
-                            "sort_order" => "05"
+                            "yaxis" => "10.0000000000000000",
+                            "xaxis" => "札幌",
+                            "sort_order" => "01"
                         ],
                         [
-                            "yaxis" => "15.0000000000000000",
-                            "xaxis" => "中山",
-                            "sort_order" => "06"
+                            "yaxis" => "7.0000000000000000",
+                            "xaxis" => "福島",
+                            "sort_order" => "03"
                         ],
                         [
-                            "yaxis" => "13.0000000000000000",
+                            "yaxis" => "6.3333333333333333",
+                            "xaxis" => "中京",
+                            "sort_order" => "07"
+                        ],
+                        [
+                            "yaxis" => "8.0000000000000000",
                             "xaxis" => "京都",
                             "sort_order" => "08"
                         ]
                     ]
                 ],
-                'xaxis' => ["東京", "中山", "京都"],
+                'xaxis' => ["札幌","福島","中京","京都"],
                 'error' => []
             ]);
     }
@@ -139,7 +144,7 @@ class HorseControllerTest extends TestCase
     {
         $response = $this->json('POST', '/api/data/graph/horse',
             [
-                'names' => ["トラストセレビー"],
+                'names' => ["ハングインゼア"],
                 'yaxis' => 'racerank',
                 'xaxis' => 'racebaba'
             ]);
@@ -147,20 +152,25 @@ class HorseControllerTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 'result' => [
-                    "トラストセレビー" => [
+                    "ハングインゼア" => [
                         [
-                            "yaxis" => "14.6666666666666667",
+                            "yaxis" => "8.5000000000000000",
                             "xaxis" => "良",
                             "sort_order" => "1"
                         ],
                         [
-                            "yaxis" => "13.0000000000000000",
+                            "yaxis" => "5.3333333333333333",
+                            "xaxis" => "稍重",
+                            "sort_order" => "2"
+                        ],
+                        [
+                            "yaxis" => "9.5000000000000000",
                             "xaxis" => "重",
                             "sort_order" => "3"
                         ]
                     ]
                 ],
-                'xaxis' => ["良", "重"],
+                'xaxis' => ["良", "稍重", "重"],
                 'error' => []
             ]);
     }
