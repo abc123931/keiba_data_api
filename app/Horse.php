@@ -34,4 +34,14 @@ class Horse extends Model
                      ->where('horse.horse_id', $horse_id)
                      ->where('baba.baba_id', "!=", null);
     }
+
+    public function scopeDistanceOrderByGoal($query, $horse_id) {
+        return $query->leftJoin('result', 'horse.horse_id', '=', 'result.horse_id')
+                     ->leftJoin('race', 'result.race_id', '=', 'race.race_id')
+                     ->selectRaw('avg(result.goal::integer) as yaxis, race.race_distance as xaxis, race.race_distance as sort_order')
+                     ->groupBy('race.race_distance')
+                     ->orderBy('race.race_distance', 'asc')
+                     ->where('horse.horse_id', $horse_id)
+                     ->where('race.race_distance', "!=", null);
+    }
 }

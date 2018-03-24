@@ -53,6 +53,10 @@ class HorseController extends Controller
                         $result[$name] = Horse::babaOrderByGoal($horse_id)->get();
                     }
 
+                    if ($request->xaxis === 'racedistance') {
+                        $result[$name] = Horse::DistanceOrderByGoal($horse_id)->get();
+                    }
+
                     if (!isset($result[$name])) {
                        $errors[] = "x軸が正しくありません。";
                        continue;

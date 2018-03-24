@@ -174,4 +174,49 @@ class HorseControllerTest extends TestCase
                 'error' => []
             ]);
     }
+
+    public function test_getDataGraph_xaxisがracedistanceでyaxisがracerankの場合()
+    {
+        $response = $this->json('POST', '/api/data/graph/horse',
+            [
+                'names' => ["ハングインゼア"],
+                'yaxis' => 'racerank',
+                'xaxis' => 'racedistance'
+            ]);
+        $response
+            ->assertStatus(200)
+            ->assertExactJson([
+                'result' => [
+                    "ハングインゼア" => [
+                        [
+                            "yaxis" => "9.0000000000000000",
+                            "xaxis" => 1000,
+                            "sort_order" => 1000
+                        ],
+                        [
+                            "yaxis" => "6.8000000000000000",
+                            "xaxis" => 1200,
+                            "sort_order" => 1200
+                        ],
+                        [
+                            "yaxis" => "8.5000000000000000",
+                            "xaxis" => 1400,
+                            "sort_order" => 1400
+                        ],
+                        [
+                            "yaxis" => "9.5000000000000000",
+                            "xaxis" => 1700,
+                            "sort_order" => 1700
+                        ],
+                        [
+                            "yaxis" => "7.0000000000000000",
+                            "xaxis" => 1800,
+                            "sort_order" => 1800
+                        ]
+                    ]
+                ],
+                'xaxis' => [1000, 1200, 1400, 1700, 1800],
+                'error' => []
+            ]);
+    }
 }
